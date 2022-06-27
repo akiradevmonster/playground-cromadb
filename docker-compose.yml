@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  chroma:
+    image: chromadb/chroma
+    volumes:
+      - ./chroma_db:/data
+    ports:
+      - "8080:8000"
+    restart: unless-stopped
+    # Resource limitations for optimization
+    deploy:
+      resources:
+        limits:
+          cpus: '4'
+          memory: 4G
+        reservations:
+          cpus: '2'
+          memory: 2G
+    environment:
+      - CHROMA_DB_IMPL=duckdb+parquet
+      - CHROMA_COLLECTION_CACHE_SIZE=1024
